@@ -1,4 +1,5 @@
 import { FastifyInstance } from "fastify";
+import { PostInterface } from "../types/post.js";
 import { ProfileInterface } from "../types/profile.js";
 import { UserInterface } from "../types/user.js";
 
@@ -50,3 +51,14 @@ export const userByProfileResolver = async (parent: ProfileInterface, _args, fas
   });
   return result;
 };
+
+export const userByPostResolver = async (parent: PostInterface, _args, fastify: FastifyInstance) => {
+  const result = await fastify.prisma.user.findUnique({
+    where: {
+      id: parent.authorId,
+    },
+  });
+  return result;
+};
+
+
