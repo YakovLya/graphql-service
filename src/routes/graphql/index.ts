@@ -1,5 +1,5 @@
 import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox';
-import { createGqlResponseSchema, gqlResponseSchema } from './schemas.js';
+import { createGqlResponseSchema, gqlResponseSchema, mainSchema } from './schemas.js';
 import { graphql } from 'graphql';
 
 const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
@@ -13,7 +13,13 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
       },
     },
     async handler(req) {
-      return {};
+      const res = await graphql({
+        source: req.body.query,
+        variableValues: req.body.variables,
+        schema: mainSchema,
+        contextValue: fastify,
+      });
+      return res;
     },
   });
 };
