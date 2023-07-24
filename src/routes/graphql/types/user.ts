@@ -1,7 +1,7 @@
 import { GraphQLBoolean, GraphQLFloat, GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
 import { postsByUserResolver } from "../resolvers/post.js";
 import { profileByUserResolver } from "../resolvers/profile.js";
-import { changeUserResolver, createUserResolver, deleteUserResolver, subscribedToUserResolver, userResolver, usersResolver, userSubscribedToResolver } from "../resolvers/user.js";
+import { changeUserResolver, createUserResolver, deleteUserResolver, subscribedToUserResolver, subscribeResolver, unsubscribeResolver, userResolver, usersResolver, userSubscribedToResolver } from "../resolvers/user.js";
 import { PostInterface, postType } from "./post.js";
 import { ProfileInterface, profileType } from "./profile.js";
 import { UUIDType } from "./uuid.js";
@@ -30,6 +30,12 @@ export interface ChangeUserInterface {
     balance: number
   }
 }
+
+export interface subInterface {
+  userId: string,
+  authorId: string,
+}
+
 
 export const userType: GraphQLObjectType = new GraphQLObjectType({
   name: 'User',
@@ -112,4 +118,22 @@ export const changeUser = {
     },
   },
   resolve: changeUserResolver,
+}
+
+export const subscribeTo = {
+  type: userType,
+  args: {
+    userId: { type: UUIDType },
+    authorId: { type: UUIDType },
+  },
+  resolve: subscribeResolver,
+}
+
+export const unsubscribeFrom = {
+  type: GraphQLString,
+  args: {
+    userId: { type: UUIDType },
+    authorId: { type: UUIDType },
+  },
+  resolve: unsubscribeResolver,
 }

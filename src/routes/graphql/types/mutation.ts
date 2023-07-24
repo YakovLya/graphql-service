@@ -1,7 +1,7 @@
 import { GraphQLObjectType } from "graphql";
 import { changePost, createPost, deletePost } from "./post.js";
 import { changeProfile, createProfile, deleteProfile } from "./profile.js";
-import { changeUser, createUser, deleteUser } from "./user.js";
+import { changeUser, createUser, deleteUser, subscribeTo, unsubscribeFrom } from "./user.js";
 
 
 export const mutationType = new GraphQLObjectType({
@@ -10,6 +10,8 @@ export const mutationType = new GraphQLObjectType({
     createUser,
     deleteUser,
     changeUser,
+    subscribeTo,
+    unsubscribeFrom,
     createPost,
     deletePost,
     changePost,
