@@ -14,6 +14,6 @@ export const queryType = new GraphQLObjectType({
     memberType,
     memberTypes,
     post,
-    posts
+    posts,
   },
 });

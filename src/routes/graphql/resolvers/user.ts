@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { PostInterface } from "../types/post.js";
 import { ProfileInterface } from "../types/profile.js";
-import { UserInterface } from "../types/user.js";
+import { ChangeUserInterface, CreateUserInterface, UserInterface } from "../types/user.js";
 
 export const userResolver = async (_parent, args: { id: string }, fastify: FastifyInstance) => {
   const result = await fastify.prisma.user.findUnique({
@@ -61,4 +61,29 @@ export const userByPostResolver = async (parent: PostInterface, _args, fastify: 
   return result;
 };
 
+
+export const createUserResolver = async (_parent, args: CreateUserInterface, fastify: FastifyInstance) => {
+  const result = await fastify.prisma.user.create({
+    data: args.dto,
+  });
+  return result;
+}
+
+export const deleteUserResolver = async (_parent, args: { id: string} , fastify: FastifyInstance) => {
+  const result = await fastify.prisma.user.delete({
+    where: {
+      id: args.id,
+    },
+  });
+}
+
+export const changeUserResolver = async (_parent, args: ChangeUserInterface, fastify: FastifyInstance) => {
+  const result = await fastify.prisma.user.update({
+    where: {
+      id: args.id,
+    },
+    data: args.dto,
+  });
+  return result;
+}
 

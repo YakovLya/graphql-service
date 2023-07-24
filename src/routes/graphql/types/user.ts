@@ -1,7 +1,7 @@
-import { GraphQLFloat, GraphQLList, GraphQLObjectType, GraphQLString } from "graphql";
+import { GraphQLBoolean, GraphQLFloat, GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
 import { postsByUserResolver } from "../resolvers/post.js";
 import { profileByUserResolver } from "../resolvers/profile.js";
-import { subscribedToUserResolver, userResolver, usersResolver, userSubscribedToResolver } from "../resolvers/user.js";
+import { changeUserResolver, createUserResolver, deleteUserResolver, subscribedToUserResolver, userResolver, usersResolver, userSubscribedToResolver } from "../resolvers/user.js";
 import { PostInterface, postType } from "./post.js";
 import { ProfileInterface, profileType } from "./profile.js";
 import { UUIDType } from "./uuid.js";
@@ -14,6 +14,21 @@ export interface UserInterface {
   posts: PostInterface[],
   subscribedToUser: UserInterface[],
   userSubscribedTo: UserInterface[],
+}
+
+export interface CreateUserInterface {
+  dto: {
+    name: string,
+    balance: number
+  }
+}
+
+export interface ChangeUserInterface {
+  id: string,
+  dto: {
+    name: string,
+    balance: number
+  }
 }
 
 export const userType: GraphQLObjectType = new GraphQLObjectType({
@@ -41,12 +56,26 @@ export const userType: GraphQLObjectType = new GraphQLObjectType({
   }),
 })
 
+export const createUserType: GraphQLInputObjectType = new GraphQLInputObjectType({
+  name: 'CreateUserInput',
+  fields: () => ({
+    name: { type: new GraphQLNonNull(GraphQLString) },
+    balance: { type: new GraphQLNonNull(GraphQLFloat) },
+  }),
+})
+
+export const changeUserType: GraphQLInputObjectType = new GraphQLInputObjectType({
+  name: 'ChangeUserInput',
+  fields: () => ({
+    name: { type: GraphQLString },
+    balance: { type: GraphQLFloat },
+  }),
+})
+
 export const user = {
   type: userType,
   args: {
-    id: {
-      type: UUIDType,
-    },
+    id: { type: UUIDType },
   },
   resolve: userResolver,
 }
@@ -54,4 +83,33 @@ export const user = {
 export const users = {
   type: new GraphQLList(userType),
   resolve: usersResolver,
+}
+
+export const createUser = {
+  type: userType,
+  args: {
+    dto: {
+      type: createUserType,
+    },
+  },
+  resolve: createUserResolver,
+}
+
+export const deleteUser = {
+  type: GraphQLBoolean,
+  args: {
+    id: { type: UUIDType },
+  },
+  resolve: deleteUserResolver,
+}
+
+export const changeUser = {
+  type: userType,
+  args: {
+    id: { type: UUIDType },
+    dto: {
+      type: changeUserType,
+    },
+  },
+  resolve: changeUserResolver,
 }

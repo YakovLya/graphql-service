@@ -18,10 +18,10 @@ export const memberTypeType = new GraphQLObjectType({
     id: { type: memberTypeIdType },
     discount: { type: GraphQLFloat },
     postsLimitPerMonth: { type: GraphQLInt },
-    profiles: {
-      type: new GraphQLList(profileType),
-      resolve: profileByMemberTypeResolver,
-    }
+    //profiles: {
+    //  type: new GraphQLList(profileType),
+    //  resolve: profileByMemberTypeResolver,
+    //}
   }
 })
 
