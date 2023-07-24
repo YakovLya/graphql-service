@@ -46,7 +46,7 @@ export const userSubscribedToResolver = async (parent: UserInterface, _args, fas
 export const userByProfileResolver = async (parent: ProfileInterface, _args, fastify: FastifyInstance) => {
   const result = await fastify.prisma.user.findUnique({
     where: {
-      id: parent.id,
+      id: parent.userId,
     },
   });
   return result;

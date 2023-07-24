@@ -19,7 +19,7 @@ export const profilesResolver = async (_parent, _args, fastify: FastifyInstance)
 export const profileByMemberTypeResolver = async (parent: MemberTypeInterface, _args, fastify: FastifyInstance) => {
   const result = await fastify.prisma.profile.findMany({
     where: {
-      userId: parent.id,
+      memberTypeId: parent.id,
     },
   });
   return result;

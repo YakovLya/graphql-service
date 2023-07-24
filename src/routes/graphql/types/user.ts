@@ -17,7 +17,7 @@ export interface UserInterface {
 }
 
 export const userType: GraphQLObjectType = new GraphQLObjectType({
-  name: 'user',
+  name: 'User',
   fields: () => ({
     id: { type: UUIDType, },
     name: { type: GraphQLString, },

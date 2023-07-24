@@ -1,8 +1,10 @@
 import { GraphQLBoolean, GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLScalarType, GraphQLString } from "graphql";
+import { MemberTypeId } from "../../member-types/schemas.js";
 import { memberTypeByProfileResolver } from "../resolvers/memberType.js";
 import { profileResolver, profilesResolver } from "../resolvers/profile.js";
 import { userByProfileResolver } from "../resolvers/user.js";
 import { MemberTypeInterface, memberTypeType } from "./memberType.js";
+import { memberTypeIdType } from "./memberTypeId.js";
 import { UserInterface, userType } from "./user.js";
 import { UUIDType } from "./uuid.js";
 
@@ -17,7 +19,7 @@ export interface ProfileInterface {
 }
 
 export const profileType: GraphQLObjectType = new GraphQLObjectType({
-  name: 'profile',
+  name: 'Profile',
   fields: () => ({
     id: { type: UUIDType, },
     isMale: { type: GraphQLBoolean },
@@ -27,7 +29,7 @@ export const profileType: GraphQLObjectType = new GraphQLObjectType({
       type: userType,
       resolve: userByProfileResolver,
     },
-    memberTypeId: { type: GraphQLString },
+    memberTypeId: { type: memberTypeIdType },
     memberType: {
       type: memberTypeType,
       resolve: memberTypeByProfileResolver,
